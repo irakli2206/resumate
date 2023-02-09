@@ -41,7 +41,7 @@ const StepsWrapper = styled(Grid.Container, {
         top: 77,
         left: '50%',
         transform: 'translateX(-50%)',
-        borderTop: '2px dashed grey',
+        borderTop: '2px dashed lightgrey',
         zIndex: 0
     },
     '& .nextui-c-eXAFyw': {

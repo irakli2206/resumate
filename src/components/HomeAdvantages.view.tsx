@@ -3,12 +3,13 @@ import React from 'react'
 import FeatureCard from './FeatureCard'
 import { GiClick, GiPayMoney } from 'react-icons/gi'
 import {SiOpenai} from 'react-icons/si'
+// import {motion} from 'framer-motion'
 
 const HomeAdvantages = () => {
     return (
         <>
             <Grid.Container css={{ my: 48, minHeight: 'calc(100vh - 76px)', zIndex: 10, position: 'relative' }} alignItems='center' justify="center" >
-                <Grid xs={7} direction='column'>
+                <Grid xs={5} direction='column' css={{paddingRight: 40}}>
                     <Text  css={{ color: '$accents6' }}>But Why Us?</Text>
                     <Text h1  css={{ py: 24 }}>Our Advantages</Text>
                     <CardsContainer >
@@ -31,8 +32,13 @@ const HomeAdvantages = () => {
 
                 </Grid>
                 {/* <Spacer x={12} /> */}
-                <Grid xs={5} direction='column' alignItems='flex-end' >
-
+                <Grid xs={7} direction='column' alignItems='flex-end' >
+                    <img src='src/assets/paginated-results-deco.svg' style={{
+                        width: '80%', 
+                        height: 'auto',
+                        filter: 'drop-shadow(0px 2px 10px #C8F9DD)',
+                        transform: ' perspective(75em) rotateY(-30deg) rotateX(18deg)'
+                }} />
                 </Grid>
             </Grid.Container>
         </>
