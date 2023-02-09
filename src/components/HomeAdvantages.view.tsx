@@ -7,10 +7,10 @@ import {SiOpenai} from 'react-icons/si'
 const HomeAdvantages = () => {
     return (
         <>
-            <Grid.Container css={{ my: 48, height: 'calc(100vh - 76px)', zIndex: 10, position: 'relative' }} alignItems='center' justify="center" >
+            <Grid.Container css={{ my: 48, minHeight: 'calc(100vh - 76px)', zIndex: 10, position: 'relative' }} alignItems='center' justify="center" >
                 <Grid xs={7} direction='column'>
-                    <Text css={{ color: '$accents6' }}>But Why Us?</Text>
-                    <Text h1 css={{ py: 24 }}>Our Advantages</Text>
+                    <Text  css={{ color: '$accents6' }}>But Why Us?</Text>
+                    <Text h1  css={{ py: 24 }}>Our Advantages</Text>
                     <CardsContainer >
                         <FeatureCard title='Cutting Edge AI Technology' body="OpenAI's brand new tools allow us 
                         to use the power of tech and artificial intelligence in ingenius ways."

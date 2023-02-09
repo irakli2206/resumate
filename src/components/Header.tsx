@@ -6,14 +6,15 @@ const Header = () => {
     return (
          
             <Navbar variant="sticky" css={{
+                position: 'fixed',
                 '& > div': {
                     maxW: '100%'
                 }
             }}>
                 <Navbar.Brand>
                     < MdOutlineDocumentScanner size={42} />
-                    <Text b color="inherit" css={{ px: 12 }} hideIn="xs">
-                        ACME
+                    <Text b size='$xl' color="inherit" css={{ px: 12 }} hideIn="xs">
+                        ResuMate
                     </Text>
                 </Navbar.Brand>
                 <Navbar.Content hideIn="xs" variant="underline">
