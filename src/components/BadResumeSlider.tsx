@@ -68,11 +68,12 @@ const BadResumeSlider = () => {
 
 const BubbleImage = styled('img', {
     position: 'absolute',
+    width: 'clamp(200px, 90%, 370px)',
     left: 20,
     bottom: 60,
     '@sm': {
-        left: 150,
-        bottom: 40,
+        left: 165,
+        bottom: 60,
     }
 })
 

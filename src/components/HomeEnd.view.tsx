@@ -7,7 +7,7 @@ const HomeEnd = () => {
         <>
             <Grid.Container css={{ my: 48, minHeight: 'calc(80vh - 76px)', zIndex: 10, position: 'relative' }} alignItems='center' justify="center" >
                 <Grid css={{ position: 'relative', zIndex: 10 }}>
-                    <Text h1 css={{ py: 24,     textShadow: '0 0 10px white' }}>Try the demo, or get straight into it.</Text>
+                    <Text h1 css={{ py: 24, textShadow: '0 0 10px white', textAlign: 'center' }}>Try the demo, or get straight into it.</Text>
                     <Row justify='space-evenly' align='center' css={{
                         flexDirection: 'column',
                         gap: 8,
