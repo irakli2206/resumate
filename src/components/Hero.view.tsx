@@ -13,7 +13,7 @@ const Hero = () => {
                     <Text h4 css={{cursor: 'pointer'}}>Learn More</Text>
                 </Grid>
                 {/* <Spacer x={12} /> */}
-                <Grid xs={12} sm={7} css={{ pt: 200 }}>
+                <Grid xs={0} sm={7} css={{ pt: 200  }}>
                     <Image src='src/assets/hero-deco.svg' />
                 </Grid>
             </Grid.Container>

@@ -10,7 +10,7 @@ const HomeChallenge = () => {
     //Concept - Avatar of a HR woman with comments like 'why did he even send the CV', 'did he read job description' etc.
     //Text lines change based on resume, resumes are navigable with a slider
     <>
-      <Grid.Container css={{ my: 48, minHeight: 'calc(100vh - 76px)', zIndex: 10, position: 'relative' }} alignItems='center' justify="center" >
+      <Grid.Container css={{ my: 48, minHeight: 'calc(100vh - 76px)', zIndex: 10, position: 'relative' }} direction='column-reverse' alignItems='center' justify="center" >
 
         <Grid xs={12} sm={7} direction='column' >
           <BadResumeSlider />

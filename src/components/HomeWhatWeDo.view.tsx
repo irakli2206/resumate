@@ -13,15 +13,15 @@ const HomeWhatWeDo = () => {
                 </Col>
             </Grid>
             <StepsWrapper gap={4} >
-                <Grid xs={4} >
+                <Grid xs={12} sm={4} >
                     <ProcessStep number='1' title='Gather the Resumes' body='First, you have to collect all the documents 
                     you want analyzed. These documents can be in multiple formats.'  />
                 </Grid>
-                <Grid xs={4}>
+                <Grid xs={12} sm={4}>
                     <ProcessStep number='2' title='Enter Criteria' body='Choose the required and good to have traits, keywords and other 
                     parameters based on which the resumes will be rated.'  />
                 </Grid>
-                <Grid xs={4}>
+                <Grid xs={12} sm={4}>
                     <ProcessStep number='3' title='View Results' body='Receive a list of resumes, each with scores based on the 
                     criteria they satisfy. On top of the scores you can also view a summary of the whole resume.'  />
                 </Grid>
@@ -33,20 +33,25 @@ const HomeWhatWeDo = () => {
 
 const StepsWrapper = styled(Grid.Container, {
     position: 'relative',
-    '&::before': {
-        content: '',
-        width: '65%',
-        height: 2,
-        position: 'absolute',
-        top: 77,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        borderTop: '2px dashed lightgrey',
-        zIndex: 0
-    },
+    flexDirection: 'column',
+
     '& .nextui-c-eXAFyw': {
         position: 'relative',
         zIndex: 10
+    },
+    '@sm': {
+        flexDirection: 'row',
+        '&::before': {
+            content: '',
+            width: '65%',
+            height: 2,
+            position: 'absolute',
+            top: 77,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            borderTop: '2px dashed lightgrey',
+            zIndex: 0
+        },
     }
 })
 

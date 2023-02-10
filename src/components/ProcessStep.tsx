@@ -13,7 +13,11 @@ const ProcessStep = ({ number, title, body }: Props) => {
             <NumberCircle  >
                 <Text size='$2xl'> {number}</Text>
             </NumberCircle>
-            <Text weight='semibold' size='$2xl'  >{title}</Text>
+            <Text weight='semibold' size='$2xl'
+                css={{
+                    textAlign: 'center'
+                }}
+            >{title}</Text>
             <Text size='$xl' css={{ color: '$accents6' }}>{body}</Text>
         </Col>
     )

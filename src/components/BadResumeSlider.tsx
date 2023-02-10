@@ -13,14 +13,16 @@ const BadResumeSlider = () => {
     return (
         <Col>
             <AvatarContainer>
-                <Avatar rounded size='xl' src='https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
-                <img src={`src/assets/bad-resume-slider/bubble-${currentSlide}.svg`}
-                    style={{
-                        position: 'absolute',
-                        left: 150,
-                        bottom: 40,
-                        
+                <Avatar rounded src='https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                    css={{
+                        size: '$18',
+                        '@sm': {
+                            size: '$20'
+                        }
                     }}
+                />
+                <BubbleImage src={`src/assets/bad-resume-slider/bubble-${currentSlide}.svg`}
+
                 />
             </AvatarContainer>
             <SliderContainer>
@@ -32,12 +34,12 @@ const BadResumeSlider = () => {
                     slidesPerView={1}
                     creativeEffect={{
                         prev: {
-                          translate: [0, 0, -400],
+                            translate: [0, 0, -400],
                         },
                         next: {
-                          translate: ["100%", 0, 0],
+                            translate: ["100%", 0, 0],
                         },
-                      }}
+                    }}
                     navigation={{ enabled: false }}
                     pagination={{ clickable: true }}
                     scrollbar={{ draggable: true }}
@@ -64,6 +66,16 @@ const BadResumeSlider = () => {
     )
 }
 
+const BubbleImage = styled('img', {
+    position: 'absolute',
+    left: 20,
+    bottom: 60,
+    '@sm': {
+        left: 150,
+        bottom: 40,
+    }
+})
+
 const SliderContainer = styled('div', {
     width: '100%',
     display: 'flex',
@@ -81,7 +93,12 @@ const SliderContainer = styled('div', {
 const AvatarContainer = styled(Row, {
     position: 'relative',
     width: '100%',
-    paddingLeft: 100
+    paddingLeft: 0,
+    pt: 100,
+    '@sm': {
+        paddingLeft: 100,
+        pt: 0
+    }
 })
 
 export default BadResumeSlider
