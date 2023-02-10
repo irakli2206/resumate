@@ -14,9 +14,20 @@ const theme = createTheme({
             primaryBorderHover: '$green600',
             primarySolidHover: '$green700',
             primarySolidContrast: '$white',
-            primaryShadow: '$green100',
+            primaryShadow: '$green500',
             link: '#4ADE7B',
-            selection: '$accents5'
+            selection: '$accents5',
+
+            secondaryLight: '$gray200',
+            secondaryLightHover: '$gray300',
+            secondaryLightActive: '$gray400',
+            secondaryLightContrast: '$gray600',
+            secondary: 'black',
+            secondaryBorder: '$gray500',
+            secondaryBorderHover: '$gray600',
+            secondarySolidHover: '$gray700',
+            secondarySolidContrast: '$white',
+            secondaryShadow: '$gray500',
           },
         //   fonts: {
         //     sans: 'Quicksand',

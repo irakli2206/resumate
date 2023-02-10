@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Button, Text, styled } from "@nextui-org/react";
+import { Navbar, Button, Text, styled, Image } from "@nextui-org/react";
 import { MdOutlineDocumentScanner } from 'react-icons/md'
 
 const Header = () => {
@@ -12,10 +12,8 @@ const Header = () => {
                 }
             }}>
                 <Navbar.Brand>
-                    < MdOutlineDocumentScanner size={42} />
-                    <Text b size='$xl' color="inherit" css={{ px: 12 }} hideIn="xs">
-                        ResuMate
-                    </Text>
+                    <Image src='src/assets/logo.png' height={60}  />
+                    
                 </Navbar.Brand>
                 <Navbar.Content hideIn="xs" variant="underline">
                     <Navbar.Link href="#">Features</Navbar.Link>

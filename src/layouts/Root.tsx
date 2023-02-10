@@ -1,13 +1,15 @@
 import { styled } from '@nextui-org/react'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Header from '../components/Header'
+import Footer from '../components/Footer.view'
+import Header from '../components/Header.view'
 
 const Root = () => {
     return (
         <>
             <Header />
             <Outlet />
+            <Footer />
         </>
     )
 }

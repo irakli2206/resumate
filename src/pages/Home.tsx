@@ -3,6 +3,7 @@ import React from 'react'
 import Hero from '../components/Hero.view'
 import HomeAdvantages from '../components/HomeAdvantages.view'
 import HomeChallenge from '../components/HomeChallenge.view'
+import HomeEnd from '../components/HomeEnd.view'
 import HomeWhatWeDo from '../components/HomeWhatWeDo.view'
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
                 <HomeChallenge />
                 <HomeWhatWeDo />
                 <HomeAdvantages />
+                <HomeEnd />
             </Container>
 
         </>
