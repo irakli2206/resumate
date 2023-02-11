@@ -28,7 +28,14 @@ const HomeEnd = () => {
                         repeatType: 'reverse'
                     }}
                 />
-                <Decoration src='src/assets/flying-shape-2.svg' css={{ top: -100, right: 200 }}
+                <Decoration src='src/assets/flying-shape-2.svg' css={{ 
+                    display: 'none',
+                    top: -100, 
+                    right: 200,
+                    '@sm': {
+                        display: 'initial'
+                    }
+                }}
                     initial={{ y: 0 }}
                     animate={{ y: 15 }}
                     transition={{

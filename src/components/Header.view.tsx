@@ -2,6 +2,7 @@ import React from 'react'
 import { Navbar, Button, Text, styled, Image, Link as NextUILink } from "@nextui-org/react";
 import { MdOutlineDocumentScanner } from 'react-icons/md'
 import { Link, useMatch } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Header = () => {
     const match = useMatch('/demo')
@@ -21,7 +22,28 @@ const Header = () => {
             path: '/demo',
             name: 'Demo'
         },
+
     ]
+
+    // const menuVariants = {
+    //     open: (height = 1000) => ({
+    //         clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
+    //         transition: {
+    //             type: "spring",
+    //             stiffness: 20,
+    //             restDelta: 2
+    //         }
+    //     }),
+    //     closed: {
+    //         clipPath: "circle(0px at 40px 40px)",
+    //         transition: {
+    //             delay: 0.5,
+    //             type: "spring",
+    //             stiffness: 400,
+    //             damping: 40
+    //         }
+    //     }
+    // };
 
     return (
         <>
@@ -55,13 +77,14 @@ const Header = () => {
                         </Button>
                     </Navbar.Item>
                 </Navbar.Content>
-                <Navbar.Collapse css={{
-                    
+                <Navbar.Collapse  css={{
+
                     '& ul': {
                         overflow: 'hidden',
                         height: '100%',
                         background: 'transparent !important',
-                        bf: 'none'
+                        bf: 'none !important',
+
                     }
                 }}>
                     <>
@@ -76,8 +99,8 @@ const Header = () => {
                                             marginLeft: 10,
                                             transition: '0.3 ease'
                                         }
-                                        
-                                }}
+
+                                    }}
                                     isActive={isActive}
                                 >
                                     <NextUILink
@@ -85,15 +108,19 @@ const Header = () => {
                                         color="inherit"
                                         css={{
                                             minWidth: "100%",
+                                            fontSize: '$2xl',
+                                            py: '$lg',
+
                                         }}
                                         to={item.path}
+
                                     >
                                         {item.name}
                                     </NextUILink>
                                 </Navbar.CollapseItem>
                             )
                         })}
-                        <Button size='lg' rounded auto flat href="#">
+                        <Button size='xl' shadow rounded auto href="#" css={{ width: 250, fontSize: '$2xl', margin: 'auto', my: '$2xl' }}>
                             Get Started
                         </Button>
                     </>

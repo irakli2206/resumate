@@ -23,6 +23,7 @@ const Hero = () => {
     )
 }
 
+
 const BackgroundImage = styled('img', {
     position: 'absolute',
     zIndex: 0,

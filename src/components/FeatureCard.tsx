@@ -11,7 +11,7 @@ type Props = {
 
 const FeatureCard = ({ title, body, icon, iconBackground }: Props) => {
     return (
-        <Card css={{ mw: "500px", background: 'transparent' }}>
+        <Card css={{ mw: "500px", background: 'transparent', boxShadow: 'none' }}>
             <Card.Body>
                 <Row>
                     <WrappedIcon icon={icon} iconBackground={iconBackground} />
