@@ -8,14 +8,20 @@ const Root = () => {
     return (
         <>
             <Header />
-            <Outlet />
+            <OutletWrapper>
+                <Outlet />
+            </OutletWrapper>
             <Footer />
         </>
     )
 }
 
-// export const RootLayout = styled("div", {
-//     maxW: '100%'
-// });
+const HEADER_HEIGHT = 76
+
+export const OutletWrapper = styled("div", {
+    height: '100vh',
+    pt: `calc(${HEADER_HEIGHT}px + 50px)`,
+    pb: '50px'
+});
 
 export default Root

@@ -46,17 +46,16 @@ const Footer = () => {
 
 const FooterWrapper = styled('footer', {
   width: '100%',
-  height: 'auto',
-  backgroundImage: 'url("src/assets/footer-bg.svg")',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center'
+
 })
 
 
 const FooterTop = styled(Grid.Container, {
   position: 'relative',
-
-  minHeight: '400px',
+  minHeight: '300px',
+  backgroundImage: 'url("src/assets/footer-bg.svg")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
   width: '100%',
   px: '$3xl',
   pt: '$3xl',

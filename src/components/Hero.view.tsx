@@ -5,7 +5,7 @@ const Hero = () => {
     return (
         <>
             <BackgroundImage src='src/assets/hero-bg.png' />
-            <Grid.Container css={{ py: 12, minHeight: 'calc(100vh - 76px)', zIndex: 10, position: 'relative', marginTop: 100 }} alignItems='center' justify="center" >
+            <Grid.Container css={{ py: 12, minHeight: 'calc(100vh - 76px)', zIndex: 10, position: 'relative'  }} alignItems='center' justify="center" >
                 <Grid xs={12} sm={5} direction='column'>
                     <Text h1>Use the power of AI to analyze candidate resumes and CVs.</Text>
                     <Text size='$xl' css={{ color: '$accents6', mt: 24, mb: 48 }} >No more sifting through a sea of resumes, let AI help you
