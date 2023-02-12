@@ -65,7 +65,10 @@ const Demo = () => {
                         <Checkbox value="london">Has Socials Links</Checkbox>
                         <Checkbox value="tokyo">Tokyo</Checkbox>
                     </Checkbox.Group>
-                    <Input size='lg' label='Keywords' />
+                    <Input
+                        // css={{ ds: '$md' }}
+                        size='lg'
+                        label='Keywords (comma separated)' />
                     <DragDropFiles isDemo={false} />
                     <Collapse.Group css={{ width: '100%', height: '100%', pb: 50 }}>
                         <Collapse shadow title='Files'>
