@@ -1,4 +1,4 @@
-import { Container, Grid, Collapse, Checkbox, Input, Col } from '@nextui-org/react'
+import { Container, Grid, Collapse, Checkbox, Input, Col, Button, Row } from '@nextui-org/react'
 import { ref, listAll, list, getDownloadURL } from 'firebase/storage'
 import React, { useEffect, useState } from 'react'
 import { storage } from '../firebase'
@@ -14,6 +14,8 @@ const Demo = () => {
 
     ])
     const listRef = ref(storage, 'dummy-pdfs')
+
+    const [tableData, setTableData] = useState()
 
 
 
@@ -70,7 +72,7 @@ const Demo = () => {
                         size='lg'
                         label='Keywords (comma separated)' />
                     <DragDropFiles isDemo={false} />
-                    <Collapse.Group css={{ width: '100%', height: '100%', pb: 50 }}>
+                    <Collapse.Group css={{ width: '100%', height: '100%'     }}>
                         <Collapse shadow title='Files'>
                             {docURIs.length > 0 && <DocViewer
                                 documents={docURIs}
@@ -82,7 +84,10 @@ const Demo = () => {
                             />}
                         </Collapse>
                     </Collapse.Group>
+                    <Row justify='center'>
+                        <Button size='xl' color='primary' shadow>Analyze Resumes</Button>
 
+                    </Row>
                 </Col>
             </Container>
         </>

@@ -43,10 +43,9 @@ const DragDropFiles = ({ isDemo }: Props) => {
                 className="file-input"
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
-                onClick={handleClick}
-                css={{
-                    cursor: isDemo ? 'not-allowed' : 'pointer'
-                }}
+                // css={{
+                //     cursor: isDemo ? 'not-allowed' : 'pointer'
+                // }}
             >
                 {draggedFiles.length > 0 ? (
                     <>
@@ -65,7 +64,7 @@ const DragDropFiles = ({ isDemo }: Props) => {
                         <FaFolderOpen color='grey' size={36} />
                         <Text css={{color: '$accents7', fontWeight: '$semibold'}} >Drag and Drop Files Here</Text>
                         <Text css={{color: '$accents6', fontWeight: '$light', fontSize: '$sm'}} >File Types Supported: PDF</Text>
-                        <Button color='secondary' css={{background: 'grey'}}>Choose Files</Button>
+                        <Button disabled={isDemo} onClick={handleClick} color='secondary' css={{background: 'grey'}}>Choose Files</Button>
                         <Text css={{color: '$accents6', fontWeight: '$light', fontSize: '$sm'}}  >Maximum Size: 5MB</Text>
                     </InnerInput>
                 )}
