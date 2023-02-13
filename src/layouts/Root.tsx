@@ -19,7 +19,7 @@ const Root = () => {
 const HEADER_HEIGHT = 76
 
 export const OutletWrapper = styled("div", {
-    height: '100vh',
+    minHeight: '100vh',
     pt: `calc(${HEADER_HEIGHT}px + 50px)`,
     pb: '50px'
 });

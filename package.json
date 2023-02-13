@@ -13,6 +13,7 @@
     "@nextui-org/react": "^1.0.0-beta.12",
     "firebase": "^9.17.1",
     "framer-motion": "^9.0.2",
+    "pdfjs-dist": "^3.3.122",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
@@ -21,6 +22,7 @@
     "swiper": "^9.0.3"
   },
   "devDependencies": {
+    "@types/pdfjs-dist": "^2.10.378",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",

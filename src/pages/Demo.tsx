@@ -7,6 +7,10 @@ import DragDropFiles from '../components/DragDropFiles';
 import PriorityDropdown from '../components/PriorityDropdown';
 import { MdOutlineAddCircle } from 'react-icons/md'
 import KeywordModal from '../components/KeywordModal';
+//@ts-ignore
+import pdfjsLib from "pdfjs-dist/build/pdf";
+//@ts-ignore
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
 
 type DocURI = {
@@ -25,6 +29,21 @@ export type DefaultCriteria = {
 }
 
 const defaultCriteria = ['Has Education Information', 'Has Skills Selection', 'Has Socials Links']
+
+const columns = [
+    {
+        key: "id",
+        label: "ID",
+    },
+    {
+        key: "summary",
+        label: "Summary",
+    },
+    {
+        key: "score",
+        label: "Score",
+    },
+];
 
 const Demo = () => {
     const [docURIs, setDocURIs] = useState<DocURI[]>([
@@ -93,10 +112,25 @@ const Demo = () => {
     const handlePriorityChange = (newPriority: Set<string>, index: number) => {
         const newPriorityNum = +[...newPriority][0]
         const updatedState = [...customKeywords]
-        const updatedObj: CustomKeyword = {...updatedState[index], priority: newPriorityNum }
-        updatedState[index] = updatedObj 
+        const updatedObj: CustomKeyword = { ...updatedState[index], priority: newPriorityNum }
+        updatedState[index] = updatedObj
         setCustomKeywords(updatedState)
     }
+
+    useEffect(() => {
+        console.log('ads')
+        const getPDF = async () => {
+            var loadingTask = await pdfjs.getDocument({ url: 'https://firebasestorage.googleapis.com/v0/b/resumate-6b5c1.appspot.com/o/dummy-pdfs%2FFederal-Work-Resume-Template.pdf?alt=media&token=8c8646b9-cc1e-40f8-97b3-540eebf07c39' });
+            console.log(loadingTask)
+            await loadingTask.promise.then((pdf) => {
+                console.log(pdf)
+            });
+        }
+
+        getPDF()
+
+    }, [])
+
 
 
     return (
@@ -110,7 +144,8 @@ const Demo = () => {
                     zIndex: 10,
                     position: 'relative',
                     gap: 36,
-                    justify: 'center'
+                    justify: 'center',
+                    mb: 50
                 }} >
                     <Checkbox.Group
                         color="primary"
@@ -179,7 +214,7 @@ const Demo = () => {
 
 
                     <Collapse.Group css={{ width: '100%', height: '100%' }}>
-                        <Collapse shadow title='Files'>
+                        <Collapse shadow title='Resumes'>
                             {docURIs.length > 0 && <DocViewer
                                 documents={docURIs}
 
@@ -191,9 +226,45 @@ const Demo = () => {
                         </Collapse>
                     </Collapse.Group>
                     <Row justify='center'>
-                        <Button size='xl' color='primary' shadow>Analyze Resumes</Button>
+                        <Button size='lg' color='primary' shadow>Analyze Resumes</Button>
 
                     </Row>
+                    <Table
+                        aria-label="Example table with static content"
+                        css={{
+                            height: "auto",
+                            minWidth: "100%",
+
+                        }}
+                    >
+                        <Table.Header columns={columns}>
+                            {(column) => (
+                                <Table.Column key={column.key}>{column.label}</Table.Column>
+                            )}
+                        </Table.Header>
+                        <Table.Body>
+                            <Table.Row key="1">
+                                <Table.Cell>Tony Reichert</Table.Cell>
+                                <Table.Cell>CEO</Table.Cell>
+                                <Table.Cell>Active</Table.Cell>
+                            </Table.Row>
+                            <Table.Row key="2">
+                                <Table.Cell>Zoey Lang</Table.Cell>
+                                <Table.Cell>Technical Lead</Table.Cell>
+                                <Table.Cell>Paused</Table.Cell>
+                            </Table.Row>
+                            <Table.Row key="3">
+                                <Table.Cell>Jane Fisher</Table.Cell>
+                                <Table.Cell>Senior Developer</Table.Cell>
+                                <Table.Cell>Active</Table.Cell>
+                            </Table.Row>
+                            <Table.Row key="4">
+                                <Table.Cell>William Howard</Table.Cell>
+                                <Table.Cell>Community Manager</Table.Cell>
+                                <Table.Cell>Vacation</Table.Cell>
+                            </Table.Row>
+                        </Table.Body>
+                    </Table>
                 </Col>
             </Container>
             <KeywordModal

@@ -21,7 +21,6 @@ const KeywordModal = ({ visible, closeHandler, actionHandler }: Props) => {
     }
 
     const syntheticActionHandler = () => {
-        console.log(Number.isInteger(+[...priority][0]))
         if (keyword && Number.isInteger(+[...priority][0])) {
             setPriority(new Set(["Priority"]))
             console.log('test')
