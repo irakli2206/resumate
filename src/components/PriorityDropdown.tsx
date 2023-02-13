@@ -2,8 +2,8 @@ import { Dropdown } from '@nextui-org/react'
 import React, { useMemo } from 'react'
 
 type Props = {
-    priority: any
-    onPriorityChange: any
+    priority: Set<string>
+    onPriorityChange: (val: Set<string>) => any
 }
 
 const PriorityDropdown = ({ priority, onPriorityChange }: Props) => {
@@ -12,13 +12,12 @@ const PriorityDropdown = ({ priority, onPriorityChange }: Props) => {
         [priority]
     )
 
-    console.log(priority)
     return (
         <Dropdown>
             <Dropdown.Button flat>{selectedValue}</Dropdown.Button>
             {/*@ts-ignore */}
             <Dropdown.Menu selectedKeys={priority}
-                onSelectionChange={onPriorityChange}
+                onSelectionChange={(e) => onPriorityChange(e as Set<string>)}
                 aria-label="Static Actions"
                 selectionMode='single'
                 disallowEmptySelection

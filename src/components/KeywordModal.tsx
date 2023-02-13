@@ -12,7 +12,7 @@ type Props = {
 
 const KeywordModal = ({ visible, closeHandler, actionHandler }: Props) => {
     const [keyword, setKeyword] = useState<string>('')
-    const [priority, setPriority] = useState<any>(new Set(["Priority"]))
+    const [priority, setPriority] = useState<Set<string>>(new Set(["Priority"]))
 
     const syntheticCloseHandler = () => {
         setKeyword('')
@@ -21,13 +21,19 @@ const KeywordModal = ({ visible, closeHandler, actionHandler }: Props) => {
     }
 
     const syntheticActionHandler = () => {
-        setKeyword('')
-        setPriority(new Set(["Priority"]))
-        actionHandler({
-            keyword,
-            priority: priority[0],
-            selected: true
-        })
+        console.log(Number.isInteger(+[...priority][0]))
+        if (keyword && Number.isInteger(+[...priority][0])) {
+            setPriority(new Set(["Priority"]))
+            console.log('test')
+            actionHandler({
+                keyword,
+                priority: +[...priority][0],
+                selected: true
+            })
+            setKeyword('')
+        }
+
+        
     }
 
     return (

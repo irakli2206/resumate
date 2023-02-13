@@ -1,4 +1,4 @@
-import { Container, Grid, Collapse, Checkbox, Input, Col, Button, Row, Text } from '@nextui-org/react'
+import { Container, Grid, Collapse, Checkbox, Input, Col, Button, Row, Text, Table } from '@nextui-org/react'
 import { ref, listAll, list, getDownloadURL } from 'firebase/storage'
 import React, { useEffect, useState, useMemo } from 'react'
 import { storage } from '../firebase'
@@ -19,36 +19,49 @@ export type CustomKeyword = {
     selected: boolean
 }
 
+export type DefaultCriteria = {
+    name: string
+    selected: boolean
+}
+
+const defaultCriteria = ['Has Education Information', 'Has Skills Selection', 'Has Socials Links']
+
 const Demo = () => {
     const [docURIs, setDocURIs] = useState<DocURI[]>([
 
     ])
     const listRef = ref(storage, 'dummy-pdfs')
 
+    const [defaultKeywords, setDefaultKeywords] = useState<string[]>([])
     const [customKeywords, setCustomKeywords] = useState<CustomKeyword[]>([])
+    const [unprioritizedKeywords, setUnprioritizedKeywords] = useState<string>('')
+    const [tableData, setTableData] = useState()
+    const [showKeywordModal, setShowKeywordModal] = useState<boolean>(false)
+
+    const unprioritizedCommaSeparated = useMemo(() => {
+        return unprioritizedKeywords.split(',')
+    }, [unprioritizedKeywords])
+
+    //needed for checkbox group
+
 
     //needed for checkbox group
     const activeCustomKeywords = useMemo(() => {
         const selectedKeywords: string[] = []
         customKeywords.forEach(ck => {
-            if(ck.selected) selectedKeywords.push(ck.keyword)
+            if (ck.selected) selectedKeywords.push(ck.keyword)
         })
         return selectedKeywords
     }, [customKeywords])
 
-    console.log(activeCustomKeywords)
 
-    const [tableData, setTableData] = useState()
-
-    const [showKeywordModal, setShowKeywordModal] = useState<boolean>(false)
 
     useEffect(() => {
-        console.log('test')
         listAll(listRef)
             .then(async (res) => {
                 let result = await Promise.all(res.items.map(async (item) => {
                     return getDownloadURL(item).then((uri) => {
-                        console.log({ uri })
+                        // console.log({ uri })
                         return { uri }
                     })
                 }))
@@ -76,7 +89,14 @@ const Demo = () => {
         setShowKeywordModal(false)
     }
 
-    console.log(customKeywords)
+
+    const handlePriorityChange = (newPriority: Set<string>, index: number) => {
+        const newPriorityNum = +[...newPriority][0]
+        const updatedState = [...customKeywords]
+        const updatedObj: CustomKeyword = {...updatedState[index], priority: newPriorityNum }
+        updatedState[index] = updatedObj 
+        setCustomKeywords(updatedState)
+    }
 
 
     return (
@@ -94,19 +114,23 @@ const Demo = () => {
                 }} >
                     <Checkbox.Group
                         color="primary"
-                        defaultValue={["buenos-aires"]}
-                        label="Select Criteria"
+                        // defaultValue={[]}
+                        label="Default Criteria"
                         size='sm'
+                        value={defaultKeywords}
+                        onChange={setDefaultKeywords}
                     >
                         {/*
                                 Education information how to - check keywords for section name and stuff like university, school etc.
                                 Has Skills Section - check keywords like Skills, Talents etc.
                                 Has Socials Links - check if contains links to linkedin, facebook etc.
                             */}
-                        <Checkbox value="buenos-aires">Has Education Information</Checkbox>
-                        <Checkbox value="sydney">Has Skills Section</Checkbox>
-                        <Checkbox value="london">Has Socials Links</Checkbox>
-                        <Checkbox value="tokyo">Tokyo</Checkbox>
+                        {defaultCriteria.map((dc) => {
+                            return (
+                                <Checkbox value={dc}>{dc}</Checkbox>
+                            )
+                        })}
+
                     </Checkbox.Group>
 
                     <Checkbox.Group
@@ -114,16 +138,17 @@ const Demo = () => {
                         value={activeCustomKeywords}
                         label="Keywords (Prioritized)"
                         size='sm'
-                    
+
                     >
                         <Col css={{ d: 'flex', flexDirection: 'column', gap: 12 }} >
                             {customKeywords.map((ck, i) => {
                                 //gotta set customkeywords state to prioritydropdown values
-                                console.log(ck)
                                 return (
                                     <Row align='center' css={{ gap: 20 }} >
-                                        <Checkbox defaultSelected={ck.selected} value={ck.keyword}>{ck.keyword}</Checkbox>
-                                        {/* <PriorityDropdown priority={3} onPriorityChange={ } /> */}
+                                        <Checkbox value={ck.keyword}>{ck.keyword}</Checkbox>
+                                        <PriorityDropdown
+                                            priority={new Set([ck.priority.toString()])}
+                                            onPriorityChange={(newVal) => handlePriorityChange(newVal, i)} />
                                     </Row>
                                 )
                             })}
