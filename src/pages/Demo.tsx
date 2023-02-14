@@ -1,4 +1,4 @@
-import { Container, Grid, Collapse, Checkbox, Input, Col, Button, Row, Text, Table } from '@nextui-org/react'
+import { Container, Grid, Collapse, Checkbox, Input, Col, Button, Row, Text, Table, Tooltip } from '@nextui-org/react'
 import { ref, listAll, list, getDownloadURL } from 'firebase/storage'
 import React, { useEffect, useState, useMemo } from 'react'
 import { storage } from '../firebase'
@@ -11,7 +11,9 @@ import KeywordModal from '../components/KeywordModal';
 import pdfjsLib from "pdfjs-dist/build/pdf";
 //@ts-ignore
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-
+import axios from 'axios';
+import { AiFillEye } from 'react-icons/ai'
+import { IconButton } from '../components/IconButton';
 
 type DocURI = {
     uri: string
@@ -23,26 +25,29 @@ export type CustomKeyword = {
     selected: boolean
 }
 
+export type ResumeAnalysis = {
+    id: string
+    summary: string
+    score: number
+}
+
 export type DefaultCriteria = {
     name: string
     selected: boolean
 }
 
-const defaultCriteria = ['Has Education Information', 'Has Skills Selection', 'Has Socials Links']
+const defaultCriteria = [
+    'Has Education Information',
+    'Has Skills Section',
+    'Has Socials Links',
+    'Has Contacts Selection'
+]
 
 const columns = [
-    {
-        key: "id",
-        label: "ID",
-    },
-    {
-        key: "summary",
-        label: "Summary",
-    },
-    {
-        key: "score",
-        label: "Score",
-    },
+    { name: "ID", uid: "id" },
+    { name: "SUMMARY", uid: "summary" },
+    { name: "SCORE", uid: "score" },
+    { name: "ACTIONS", uid: "actions" },
 ];
 
 const Demo = () => {
@@ -54,7 +59,7 @@ const Demo = () => {
     const [defaultKeywords, setDefaultKeywords] = useState<string[]>([])
     const [customKeywords, setCustomKeywords] = useState<CustomKeyword[]>([])
     const [unprioritizedKeywords, setUnprioritizedKeywords] = useState<string>('')
-    const [tableData, setTableData] = useState()
+    const [tableData, setTableData] = useState<ResumeAnalysis[]>([])
     const [showKeywordModal, setShowKeywordModal] = useState<boolean>(false)
 
     const unprioritizedCommaSeparated = useMemo(() => {
@@ -118,19 +123,55 @@ const Demo = () => {
     }
 
     useEffect(() => {
-        console.log('ads')
-        const getPDF = async () => {
-            var loadingTask = await pdfjs.getDocument({ url: 'https://firebasestorage.googleapis.com/v0/b/resumate-6b5c1.appspot.com/o/dummy-pdfs%2FFederal-Work-Resume-Template.pdf?alt=media&token=8c8646b9-cc1e-40f8-97b3-540eebf07c39' });
-            console.log(loadingTask)
-            await loadingTask.promise.then((pdf) => {
-                console.log(pdf)
-            });
-        }
-
-        getPDF()
+        console.log(docURIs)
 
     }, [])
 
+    const analyzeResumes = async () => {
+
+        await axios.get('http://localhost:3000/api/analyze/demo').then((res) => {
+            let { data } = res
+            setTableData(data)
+        })
+    }
+
+    const renderCell = (resume: ResumeAnalysis, columnKey: any) => {
+        const cellValue = resume[columnKey as keyof ResumeAnalysis];
+        switch (columnKey) {
+            case "id":
+                return (
+
+                    <Text css={{ p: 0 }}>{resume.id}</Text>
+                );
+            case "summary":
+                return (
+
+                    <Text size={14} css={{ tt: "capitalize" }}>
+                        {cellValue}
+                    </Text>
+
+                );
+            case "score":
+                //make color dependant on score
+                return <Text  >{cellValue}</Text>;
+
+            case "actions":
+                return (
+                    <Row justify="center" align="center">
+                        <Col css={{ d: "flex" }}>
+                            <Tooltip content="Open PDF">
+                                <IconButton onClick={() => console.log("View PDF", resume.id)}>
+                                    <AiFillEye size={20} fill="#979797" />
+                                </IconButton>
+                            </Tooltip>
+                        </Col>
+
+                    </Row>
+                );
+            default:
+                return cellValue;
+        }
+    };
 
 
     return (
@@ -147,6 +188,12 @@ const Demo = () => {
                     justify: 'center',
                     mb: 50
                 }} >
+
+                    <Input
+                        // css={{ ds: '$md' }}
+                        size='lg'
+                        label='Job Position' />
+
                     <Checkbox.Group
                         color="primary"
                         // defaultValue={[]}
@@ -221,12 +268,14 @@ const Demo = () => {
                                 initialActiveDocument={docURIs[0]}
                                 pluginRenderers={DocViewerRenderers}
                                 style={{ width: '100%', height: '100%' }}
-                                config={{ pdfZoom: { defaultZoom: 0.5, zoomJump: 0.1 } }}
+                                config={{ pdfZoom: { defaultZoom: 0.5, zoomJump: 0.1 }, }}
                             />}
                         </Collapse>
                     </Collapse.Group>
                     <Row justify='center'>
-                        <Button size='lg' color='primary' shadow>Analyze Resumes</Button>
+                        <Button size='lg' color='primary' shadow
+                            onClick={analyzeResumes}
+                        >Analyze Resumes</Button>
 
                     </Row>
                     <Table
@@ -239,30 +288,23 @@ const Demo = () => {
                     >
                         <Table.Header columns={columns}>
                             {(column) => (
-                                <Table.Column key={column.key}>{column.label}</Table.Column>
+                                <Table.Column
+                                    key={column.uid}
+                                    hideHeader={column.uid === "actions"}
+                                    align={column.uid === "actions" ? "center" : "start"}
+                                >
+                                    {column.name}
+                                </Table.Column>
                             )}
                         </Table.Header>
-                        <Table.Body>
-                            <Table.Row key="1">
-                                <Table.Cell>Tony Reichert</Table.Cell>
-                                <Table.Cell>CEO</Table.Cell>
-                                <Table.Cell>Active</Table.Cell>
-                            </Table.Row>
-                            <Table.Row key="2">
-                                <Table.Cell>Zoey Lang</Table.Cell>
-                                <Table.Cell>Technical Lead</Table.Cell>
-                                <Table.Cell>Paused</Table.Cell>
-                            </Table.Row>
-                            <Table.Row key="3">
-                                <Table.Cell>Jane Fisher</Table.Cell>
-                                <Table.Cell>Senior Developer</Table.Cell>
-                                <Table.Cell>Active</Table.Cell>
-                            </Table.Row>
-                            <Table.Row key="4">
-                                <Table.Cell>William Howard</Table.Cell>
-                                <Table.Cell>Community Manager</Table.Cell>
-                                <Table.Cell>Vacation</Table.Cell>
-                            </Table.Row>
+                        <Table.Body items={tableData}>
+                            {(item) => (
+                                <Table.Row>
+                                    {(columnKey) => (
+                                        <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                                    )}
+                                </Table.Row>
+                            )}
                         </Table.Body>
                     </Table>
                 </Col>

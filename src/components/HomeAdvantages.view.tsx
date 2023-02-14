@@ -36,7 +36,7 @@ const HomeAdvantages = () => {
                     <img src='src/assets/paginated-results-deco.svg' style={{
                         width: '80%', 
                         height: 'auto',
-                        filter: 'drop-shadow(0px 2px 10px #C8F9DD)',
+                        filter: 'drop-shadow(0px 2px 10px lightgrey)',
                         transform: ' perspective(75em) rotateY(-30deg) rotateX(18deg)'
                 }} />
                 </Grid>
