@@ -11,9 +11,14 @@ type Props = {
     closeHandler: () => void
 }
 
+const pdfViewerOptions = {
+    cMapUrl: 'cmaps/',
+    cMapPacked: true,
+    standardFontDataUrl: 'standard_fonts/',
+};
+
 const PDFModal = ({ fileSource, visible, closeHandler }: Props) => {
     const { file, setFile, curPage, totalPageNum, toNextPage, toPrevPage, onFileChange, onDocumentLoadSuccess } = usePdfViewer(fileSource)
-    console.log(file)
     return (
         <>
             {file && <Modal blur
@@ -27,7 +32,7 @@ const PDFModal = ({ fileSource, visible, closeHandler }: Props) => {
                     <Text h2>Resume</Text>
                 </Modal.Header>
                 <Modal.Body>
-                    <Document file={file} onLoadSuccess={onDocumentLoadSuccess} className='pdf-viewer'>
+                    <Document file={file} onLoadSuccess={onDocumentLoadSuccess} className='pdf-viewer' >
                         <Page pageNumber={curPage} />
                         <PDFViewerControls curPage={curPage} totalPages={totalPageNum} toNextPage={toNextPage} toPrevPage={toPrevPage} />
                     </Document>

@@ -7,8 +7,6 @@ import { motion } from 'framer-motion';
 const Header = () => {
     const match = useMatch('/demo')
 
-    console.log(match)
-
     const navbarLinks = [
         {
             path: '/features',

@@ -1,6 +1,6 @@
 import { Button, Input, Modal, Text } from '@nextui-org/react'
 import React, { useState } from 'react'
-import { CustomKeyword } from '../pages/Demo'
+import { CustomKeyword, Priority } from '../types/general'
 import PriorityDropdown from './PriorityDropdown'
 
 type Props = {
@@ -12,21 +12,20 @@ type Props = {
 
 const KeywordModal = ({ visible, closeHandler, actionHandler }: Props) => {
     const [keyword, setKeyword] = useState<string>('')
-    const [priority, setPriority] = useState<Set<string>>(new Set(["Priority"]))
+    const [priority, setPriority] = useState<Set<Priority>>(new Set(["Low"]))
 
     const syntheticCloseHandler = () => {
         setKeyword('')
-        setPriority(new Set(["Priority"]))
+        setPriority(new Set(["Low"]))
         closeHandler()
     }
 
     const syntheticActionHandler = () => {
-        if (keyword && Number.isInteger(+[...priority][0])) {
-            setPriority(new Set(["Priority"]))
-            console.log('test')
+        if (keyword && [...priority][0]) {
+            setPriority(new Set(["Low"]))
             actionHandler({
                 keyword,
-                priority: +[...priority][0],
+                priority: [...priority][0],
                 selected: true
             })
             setKeyword('')

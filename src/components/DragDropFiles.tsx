@@ -15,7 +15,6 @@ const DragDropFiles = ({ isDemo }: Props) => {
         return Array.from(draggedFiles)
     }, [draggedFiles])
 
-    console.log(filesArray)
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -34,7 +33,6 @@ const DragDropFiles = ({ isDemo }: Props) => {
         setDraggedFiles(event.target.files);
     };
 
-    // console.log(draggedFiles)
     return (
         <Wrapper>
             <InputLabel htmlFor="file-input">Upload Resumes (PDF)</InputLabel>

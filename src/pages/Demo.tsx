@@ -16,39 +16,17 @@ import { Document, Page } from 'react-pdf/dist/esm/entry.vite';
 import usePdfViewer from '../hooks/usePDFViewer';
 import PDFViewerControls from '../components/PDFViewerControls';
 import PDFModal from '../components/PDFModal';
+import { DocURI, CustomKeyword, ResumeAnalysis, Criteria, Priority } from '../types/general';
 
-type DocURI = {
-    uri: string
-}
 
-export type CustomKeyword = {
-    keyword: string
-    priority: number
-    selected: boolean
-}
 
-export type ResumeAnalysis = {
-    id: string
-    summary: string
-    score: number
-}
 
-export type DefaultCriteria = {
-    name: string
-    selected: boolean
-}
 
-const pdfViewerOptions = {
-    cMapUrl: 'cmaps/',
-    cMapPacked: true,
-    standardFontDataUrl: 'standard_fonts/',
-};
-
-const defaultCriteria = [
+const defaultCriteriaItems = [
     'Has Education Information',
     'Has Skills Section',
     'Has Socials Links',
-    'Has Contacts Selection'
+    'Has Contacts Details'
 ]
 
 const columns = [
@@ -64,7 +42,7 @@ const Demo = () => {
     ])
     const listRef = ref(storage, 'dummy-pdfs')
 
-    const [defaultKeywords, setDefaultKeywords] = useState<string[]>([])
+    const [defaultCriteria, setDefaultCriteria] = useState<string[]>([])
     const [customKeywords, setCustomKeywords] = useState<CustomKeyword[]>([])
     const [unprioritizedKeywords, setUnprioritizedKeywords] = useState<string>('')
     const [tableData, setTableData] = useState<ResumeAnalysis[]>([])
@@ -125,22 +103,26 @@ const Demo = () => {
     }
 
 
-    const handlePriorityChange = (newPriority: Set<string>, index: number) => {
-        const newPriorityNum = +[...newPriority][0]
+    const handlePriorityChange = (newPriority: Set<Priority>, index: number) => {
+        const newPriorityNum = [...newPriority][0]
         const updatedState = [...customKeywords]
         const updatedObj: CustomKeyword = { ...updatedState[index], priority: newPriorityNum }
         updatedState[index] = updatedObj
         setCustomKeywords(updatedState)
     }
 
-    useEffect(() => {
-        console.log(docURIs)
-
-    }, [])
-
     const analyzeResumes = async () => {
-
-        await axios.post('http://localhost:3000/api/analyze/demo').then((res) => {
+        console.log(defaultCriteria)
+        const criteria: Criteria = {
+            hasEducationSelection: defaultCriteria.includes('Has Education Information'),
+            hasSocialsSelection: defaultCriteria.includes('Has Socials Links'),
+            hasSkillsSelection: defaultCriteria.includes('Has Skills Section'),
+            hasContactsSelection: defaultCriteria.includes('Has Contacts Details'),
+            keywords: [],
+            customKeywords: customKeywords
+        }
+        console.log(criteria)
+        await axios.post('http://localhost:3000/api/analyze/demo', criteria).then((res) => {
             let data: ResumeAnalysis[] = res.data
             data = data.sort((a, b) => b.score - a.score)
             setTableData(data)
@@ -215,15 +197,15 @@ const Demo = () => {
                         // defaultValue={[]}
                         label="Default Criteria"
                         size='sm'
-                        value={defaultKeywords}
-                        onChange={setDefaultKeywords}
+                        value={defaultCriteria}
+                        onChange={setDefaultCriteria}
                     >
                         {/*
                                 Education information how to - check keywords for section name and stuff like university, school etc.
                                 Has Skills Section - check keywords like Skills, Talents etc.
                                 Has Socials Links - check if contains links to linkedin, facebook etc.
                             */}
-                        {defaultCriteria.map((dc) => {
+                        {defaultCriteriaItems.map((dc) => {
                             return (
                                 <Checkbox value={dc}>{dc}</Checkbox>
                             )
