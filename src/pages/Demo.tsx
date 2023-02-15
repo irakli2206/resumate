@@ -7,13 +7,15 @@ import DragDropFiles from '../components/DragDropFiles';
 import PriorityDropdown from '../components/PriorityDropdown';
 import { MdOutlineAddCircle } from 'react-icons/md'
 import KeywordModal from '../components/KeywordModal';
-//@ts-ignore
-import pdfjsLib from "pdfjs-dist/build/pdf";
-//@ts-ignore
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 import axios from 'axios';
 import { AiFillEye } from 'react-icons/ai'
 import { IconButton } from '../components/IconButton';
+import { Document, Page } from 'react-pdf/dist/esm/entry.vite';
+import usePdfViewer from '../hooks/usePDFViewer';
+import PDFViewerControls from '../components/PDFViewerControls';
+import PDFModal from '../components/PDFModal';
 
 type DocURI = {
     uri: string
@@ -35,6 +37,12 @@ export type DefaultCriteria = {
     name: string
     selected: boolean
 }
+
+const pdfViewerOptions = {
+    cMapUrl: 'cmaps/',
+    cMapPacked: true,
+    standardFontDataUrl: 'standard_fonts/',
+};
 
 const defaultCriteria = [
     'Has Education Information',
@@ -61,6 +69,9 @@ const Demo = () => {
     const [unprioritizedKeywords, setUnprioritizedKeywords] = useState<string>('')
     const [tableData, setTableData] = useState<ResumeAnalysis[]>([])
     const [showKeywordModal, setShowKeywordModal] = useState<boolean>(false)
+
+    const [pdfModalVisible, setPdfModalVisible] = useState(false)
+    const [modalFileSource, setModalFileSource] = useState<string | null>(null)
 
     const unprioritizedCommaSeparated = useMemo(() => {
         return unprioritizedKeywords.split(',')
@@ -129,8 +140,9 @@ const Demo = () => {
 
     const analyzeResumes = async () => {
 
-        await axios.get('http://localhost:3000/api/analyze/demo').then((res) => {
-            let { data } = res
+        await axios.post('http://localhost:3000/api/analyze/demo').then((res) => {
+            let data: ResumeAnalysis[] = res.data
+            data = data.sort((a, b) => b.score - a.score)
             setTableData(data)
         })
     }
@@ -160,7 +172,7 @@ const Demo = () => {
                     <Row justify="center" align="center">
                         <Col css={{ d: "flex" }}>
                             <Tooltip content="Open PDF">
-                                <IconButton onClick={() => console.log("View PDF", resume.id)}>
+                                <IconButton onClick={() => setPdfModalVisible(true)}>
                                     <AiFillEye size={20} fill="#979797" />
                                 </IconButton>
                             </Tooltip>
@@ -172,6 +184,10 @@ const Demo = () => {
                 return cellValue;
         }
     };
+
+    const onPdfModalClose = () => {
+        setPdfModalVisible(false)
+    }
 
 
     return (
@@ -260,6 +276,8 @@ const Demo = () => {
                     <DragDropFiles isDemo={false} />
 
 
+
+                    {/*                 
                     <Collapse.Group css={{ width: '100%', height: '100%' }}>
                         <Collapse shadow title='Resumes'>
                             {docURIs.length > 0 && <DocViewer
@@ -271,7 +289,7 @@ const Demo = () => {
                                 config={{ pdfZoom: { defaultZoom: 0.5, zoomJump: 0.1 }, }}
                             />}
                         </Collapse>
-                    </Collapse.Group>
+                    </Collapse.Group> */}
                     <Row justify='center'>
                         <Button size='lg' color='primary' shadow
                             onClick={analyzeResumes}
@@ -314,6 +332,7 @@ const Demo = () => {
                 closeHandler={handleKeywordModalClose}
                 actionHandler={handleAddKeyword}
             />
+            <PDFModal visible={pdfModalVisible} closeHandler={onPdfModalClose} fileSource='https://firebasestorage.googleapis.com/v0/b/resumate-6b5c1.appspot.com/o/dummy-pdfs%2FFederal-Work-Resume-Template.pdf?alt=media&token=8c8646b9-cc1e-40f8-97b3-540eebf07c39' />
         </>
     )
 }
