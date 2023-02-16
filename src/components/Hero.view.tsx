@@ -7,9 +7,8 @@ const Hero = () => {
             <BackgroundImage src='src/assets/hero-bg.png' />
             <Grid.Container css={{ py: 12, minHeight: 'calc(100vh - 76px)', zIndex: 10, position: 'relative'  }} alignItems='center' justify="center" >
                 <Grid xs={12} sm={5} direction='column'>
-                    <Text h1>Use the power of AI to analyze candidate resumes and CVs.</Text>
-                    <Text size='$xl' css={{ color: '$accents6', mt: 24, mb: 48 }} >No more sifting through a sea of resumes, let AI help you
-                        find the best candidates.</Text>
+                    <Text h1>Revolutionize your job search with AI-powered career coaching.</Text>
+                    <Text size='$xl' css={{ color: '$accents6', mt: 24, mb: 48 }} >Let ResuMate's AI-powered career coach help you land your dream job.</Text>
                     <Text h4 css={{cursor: 'pointer'}}>Learn More</Text>
                 </Grid>
                 {/* <Spacer x={12} /> */}

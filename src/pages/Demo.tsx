@@ -1,4 +1,4 @@
-import { Container, Grid, Collapse, Checkbox, Input, Col, Button, Row, Text, Table, Tooltip } from '@nextui-org/react'
+import { Container, Grid, Collapse, Checkbox, Input, Col, Button, Row, Text, Table, Tooltip, Textarea, Link, styled } from '@nextui-org/react'
 import { ref, listAll, list, getDownloadURL } from 'firebase/storage'
 import React, { useEffect, useState, useMemo } from 'react'
 import { storage } from '../firebase'
@@ -22,19 +22,43 @@ import { DocURI, CustomKeyword, ResumeAnalysis, Criteria, Priority } from '../ty
 
 
 
-const defaultCriteriaItems = [
-    'Has Education Information',
-    'Has Skills Section',
-    'Has Socials Links',
-    'Has Contacts Details'
+const interviewQuestions = [
+    'What inspired you to pursue a career in construction and project management, and what do you find most fulfilling about the work?',
+    'How do you approach project management, particularly in terms of budgeting and scheduling, and what strategies have you found to be particularly effective in keeping projects on track and within budget?',
+    'Can you tell me about a particularly challenging project you worked on, and how you overcame any obstacles or issues that arose during its completion?',
+    'How do you ensure the safety and security of workers on construction sites, and what measures do you take to ensure compliance with OSHA regulations and other safety standards?',
+    'How do you stay current with new developments and technologies in the construction industry, and how do you integrate these into your work to ensure your projects are using the latest and most effective methods and tools?'
 ]
 
 const columns = [
-    { name: "ID", uid: "id" },
-    { name: "SUMMARY", uid: "summary" },
+    { name: "CRITERIUM", uid: "criterium" },
     { name: "SCORE", uid: "score" },
-    { name: "ACTIONS", uid: "actions" },
 ];
+
+const rows = [
+    {
+        key: 1,
+        criterium: 'Grammar',
+        score: 95
+    },
+    {
+        key: 2,
+        criterium: 'Structure',
+        score: 90
+    },
+    {
+        key: 3,
+        criterium: 'Content',
+        score: 95
+    },
+
+]
+
+const feedbackText = `Overall, this is a well-written and informative resume. The candidate has provided a good overview of their relevant experience, skills, and areas of expertise. The use of bullet points and section headings makes the information easy to read and understand.
+
+One suggestion would be to include more specific details and metrics to highlight achievements and demonstrate the impact the candidate has had in their previous roles. For example, instead of simply stating that they "oversaw a broad range of remodeling projects," they could mention the number of projects, their total value, and any specific challenges or accomplishments.
+    
+Additionally, the resume could benefit from more focus on the most recent and relevant experiences, as some of the earlier positions are from more than a decade ago. It may be more effective to highlight the most recent 10-15 years of experience.`
 
 const Demo = () => {
     const [docURIs, setDocURIs] = useState<DocURI[]>([
@@ -42,32 +66,21 @@ const Demo = () => {
     ])
     const listRef = ref(storage, 'dummy-pdfs')
 
-    const [defaultCriteria, setDefaultCriteria] = useState<string[]>([])
-    const [customKeywords, setCustomKeywords] = useState<CustomKeyword[]>([])
-    const [unprioritizedKeywords, setUnprioritizedKeywords] = useState<string>('')
-    const [tableData, setTableData] = useState<ResumeAnalysis[]>([])
-    const [showKeywordModal, setShowKeywordModal] = useState<boolean>(false)
+
+    const [feedback, setFeedback] = useState<string>('')
+    const [checkboxes, setCheckboxes] = useState({
+        interview: true,
+        websites: true
+    })
+
+    const { file, setFile, curPage, totalPageNum, toNextPage, toPrevPage, onFileChange, onDocumentLoadSuccess } = usePdfViewer('https://firebasestorage.googleapis.com/v0/b/resumate-6b5c1.appspot.com/o/dummy-pdfs%2Fconstruction-work-resume.pdf?alt=media&token=e32bd116-d4dd-4a5c-9d68-cf2a12222408')
 
     const [pdfModalVisible, setPdfModalVisible] = useState(false)
     const [modalFileSource, setModalFileSource] = useState<string | null>(null)
 
-    const unprioritizedCommaSeparated = useMemo(() => {
-        return unprioritizedKeywords.split(',')
-    }, [unprioritizedKeywords])
-
-    //needed for checkbox group
-
-
-    //needed for checkbox group
-    const activeCustomKeywords = useMemo(() => {
-        const selectedKeywords: string[] = []
-        customKeywords.forEach(ck => {
-            if (ck.selected) selectedKeywords.push(ck.keyword)
-        })
-        return selectedKeywords
-    }, [customKeywords])
-
-
+    const analyze = () => {
+        setFeedback(feedbackText)
+    }
 
     useEffect(() => {
         listAll(listRef)
@@ -85,49 +98,6 @@ const Demo = () => {
             });
     }, [])
 
-
-    const showKeywordModalHandle = () => {
-        setShowKeywordModal(true)
-    }
-
-    const handleKeywordModalClose = () => {
-        setShowKeywordModal(false)
-    }
-
-    const handleAddKeyword = (newKeyword: CustomKeyword) => {
-        setCustomKeywords(prevState => ([
-            ...prevState,
-            newKeyword
-        ]))
-        setShowKeywordModal(false)
-    }
-
-
-    const handlePriorityChange = (newPriority: Set<Priority>, index: number) => {
-        const newPriorityNum = [...newPriority][0]
-        const updatedState = [...customKeywords]
-        const updatedObj: CustomKeyword = { ...updatedState[index], priority: newPriorityNum }
-        updatedState[index] = updatedObj
-        setCustomKeywords(updatedState)
-    }
-
-    const analyzeResumes = async () => {
-        console.log(defaultCriteria)
-        const criteria: Criteria = {
-            hasEducationSelection: defaultCriteria.includes('Has Education Information'),
-            hasSocialsSelection: defaultCriteria.includes('Has Socials Links'),
-            hasSkillsSelection: defaultCriteria.includes('Has Skills Section'),
-            hasContactsSelection: defaultCriteria.includes('Has Contacts Details'),
-            keywords: [],
-            customKeywords: customKeywords
-        }
-        console.log(criteria)
-        await axios.post('http://localhost:3000/api/analyze/demo', criteria).then((res) => {
-            let data: ResumeAnalysis[] = res.data
-            data = data.sort((a, b) => b.score - a.score)
-            setTableData(data)
-        })
-    }
 
     const renderCell = (resume: ResumeAnalysis, columnKey: any) => {
         const cellValue = resume[columnKey as keyof ResumeAnalysis];
@@ -171,6 +141,7 @@ const Demo = () => {
         setPdfModalVisible(false)
     }
 
+    console.log(checkboxes)
 
     return (
         <>
@@ -186,137 +157,138 @@ const Demo = () => {
                     justify: 'center',
                     mb: 50
                 }} >
-
-                    <Input
-                        // css={{ ds: '$md' }}
-                        size='lg'
-                        label='Job Position' />
-
-                    <Checkbox.Group
-                        color="primary"
-                        // defaultValue={[]}
-                        label="Default Criteria"
-                        size='sm'
-                        value={defaultCriteria}
-                        onChange={setDefaultCriteria}
-                    >
-                        {/*
-                                Education information how to - check keywords for section name and stuff like university, school etc.
-                                Has Skills Section - check keywords like Skills, Talents etc.
-                                Has Socials Links - check if contains links to linkedin, facebook etc.
-                            */}
-                        {defaultCriteriaItems.map((dc) => {
-                            return (
-                                <Checkbox value={dc}>{dc}</Checkbox>
-                            )
-                        })}
-
-                    </Checkbox.Group>
-
-                    <Checkbox.Group
-                        color="primary"
-                        value={activeCustomKeywords}
-                        label="Keywords (Prioritized)"
-                        size='sm'
-
-                    >
-                        <Col css={{ d: 'flex', flexDirection: 'column', gap: 12 }} >
-                            {customKeywords.map((ck, i) => {
-                                //gotta set customkeywords state to prioritydropdown values
-                                return (
-                                    <Row align='center' css={{ gap: 20 }} >
-                                        <Checkbox value={ck.keyword}>{ck.keyword}</Checkbox>
-                                        <PriorityDropdown
-                                            priority={new Set([ck.priority.toString()])}
-                                            onPriorityChange={(newVal) => handlePriorityChange(newVal, i)} />
-                                    </Row>
-                                )
-                            })}
-                            <Text css={{
-                                color: '$primary !important',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 4,
-                                cursor: 'pointer',
-                                width: 'fit-content'
-                            }}
-                                onClick={showKeywordModalHandle}
-                            >
-                                Add Keyword
-                                <MdOutlineAddCircle />
-                            </Text>
-                        </Col>
-                    </Checkbox.Group>
-
-
-                    <Input
-                        // css={{ ds: '$md' }}
-                        size='lg'
-                        label='Keywords (Unprioritized)' />
-
-
-                    <DragDropFiles isDemo={false} />
-
-
-
-                    {/*                 
-                    <Collapse.Group css={{ width: '100%', height: '100%' }}>
-                        <Collapse shadow title='Resumes'>
-                            {docURIs.length > 0 && <DocViewer
-                                documents={docURIs}
-
-                                initialActiveDocument={docURIs[0]}
-                                pluginRenderers={DocViewerRenderers}
-                                style={{ width: '100%', height: '100%' }}
-                                config={{ pdfZoom: { defaultZoom: 0.5, zoomJump: 0.1 }, }}
-                            />}
+                    {/* <DragDropFiles isDemo={false} /> */}
+                    <Collapse.Group css={{ width: '100%', height: '100%', p: 0 }}>
+                        <Collapse shadow title='Resume'>
+                            <Document file={file} onLoadSuccess={onDocumentLoadSuccess} className='pdf-viewer' >
+                                <Page pageNumber={curPage} />
+                                <PDFViewerControls curPage={curPage} totalPages={totalPageNum} toNextPage={toNextPage} toPrevPage={toPrevPage} />
+                            </Document>
                         </Collapse>
-                    </Collapse.Group> */}
+                    </Collapse.Group>
+                    <Input
+                        // css={{ ds: '$md' }}
+                        size='lg'
+                        label='Targeted Profession'
+                        readOnly
+                        bordered
+                        value='Construction Site Manager'
+                    />
+                    <Input
+                        // css={{ ds: '$md' }}
+                        size='lg'
+                        label='Location'
+                        readOnly
+                        bordered
+                        value='Boston area, USA'
+                    />
+                    <Checkbox isSelected={checkboxes.interview}
+                        onChange={(e) => setCheckboxes(prev => ({
+                            ...prev,
+                            interview: e
+                        }))}
+                    >Interview Questions</Checkbox>
+                    <Checkbox isSelected={checkboxes.websites}
+                        onChange={(e) => setCheckboxes(prev => ({
+                            ...prev,
+                            websites: e
+                        }))}
+                    >Job Board Website Recommendations</Checkbox>
+
                     <Row justify='center'>
                         <Button size='lg' color='primary' shadow
-                            onClick={analyzeResumes}
-                        >Analyze Resumes</Button>
-
+                            onClick={analyze}
+                        >Analyze Resume</Button>
                     </Row>
-                    <Table
-                        aria-label="Example table with static content"
-                        css={{
-                            height: "auto",
-                            minWidth: "100%",
+                    {feedback &&
+                        <Col  >
+                            <Text h3>Feedback</Text>
+                            <Textarea rows={8} readOnly bordered size='lg' value={feedback} css={{ width: '100%' }} />
+                        </Col>
+                    }
 
-                        }}
-                    >
-                        <Table.Header columns={columns}>
-                            {(column) => (
-                                <Table.Column
-                                    key={column.uid}
-                                    hideHeader={column.uid === "actions"}
-                                    align={column.uid === "actions" ? "center" : "start"}
-                                >
-                                    {column.name}
-                                </Table.Column>
-                            )}
-                        </Table.Header>
-                        <Table.Body items={tableData}>
-                            {(item) => (
-                                <Table.Row>
-                                    {(columnKey) => (
-                                        <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                    {feedback &&
+                        <Col>
+                            <Text h3>Criteria Scores</Text>
+                            <Table
+                                aria-label="Example table with static content"
+                                css={{
+                                    height: "auto",
+                                    minWidth: "100%",
+
+                                }}
+                            >
+                                <Table.Header columns={columns}>
+                                    {(column) => (
+                                        <Table.Column
+                                            key={column.uid}
+                                            hideHeader={column.uid === "actions"}
+                                            align={column.uid === "actions" ? "center" : "start"}
+                                        >
+                                            {column.name}
+                                        </Table.Column>
                                     )}
-                                </Table.Row>
-                            )}
-                        </Table.Body>
-                    </Table>
+                                </Table.Header>
+                                <Table.Body items={rows}>
+                                    {(item) => (
+                                        <Table.Row key={item.key}>
+                                            {(columnKey) => <Table.Cell>{item[columnKey as keyof typeof item]}</Table.Cell>}
+                                        </Table.Row>
+                                    )}
+                                </Table.Body>
+                            </Table>
+                        </Col>
+                    }
+                    {(feedback && checkboxes.interview) &&
+                        <Col>
+                            <Text h3>Interview Questions</Text>
+                            <QuestionsList>
+                                {interviewQuestions.map(q => {
+                                    return (
+                                        <li>
+                                            <Text>{q}</Text>
+                                        </li>
+                                    )
+                                })}
+
+                            </QuestionsList>
+                        </Col>
+                    }
+                    {(feedback && checkboxes.websites) &&
+                        <Col>
+                            <Text h3>Job Boards</Text>
+                            <Grid.Container css={{ columnGap: 20, rowGap: 20 }}>
+                                <Grid>
+                                    <Link target='_blank' href='https://www.indeed.com'>https://www.indeed.com</Link>
+                                </Grid>
+                                <Grid>
+                                    <Link target='_blank' href='https://www.glassdoor.com'>https://www.glassdoor.com</Link>
+                                </Grid>
+                                <Grid>
+                                    <Link target='_blank' href='https://www.linkedin.com/jobs'>https://www.linkedin.com/jobs</Link>
+                                </Grid>
+                                <Grid>
+                                    <Link target='_blank' href='https://www.careerbuilder.com'>https://www.careerbuilder.com</Link>
+                                </Grid>
+                                <Grid>
+                                    <Link target='_blank' href='https://www.ziprecruiter.com'>https://www.ziprecruiter.com</Link>
+                                </Grid>
+
+
+                            </Grid.Container>
+                        </Col>
+
+                    }
                 </Col>
             </Container>
-            <KeywordModal
-                visible={showKeywordModal}
-                closeHandler={handleKeywordModalClose}
-                actionHandler={handleAddKeyword}
-            />
+
             <PDFModal visible={pdfModalVisible} closeHandler={onPdfModalClose} fileSource='https://firebasestorage.googleapis.com/v0/b/resumate-6b5c1.appspot.com/o/dummy-pdfs%2FFederal-Work-Resume-Template.pdf?alt=media&token=8c8646b9-cc1e-40f8-97b3-540eebf07c39' />
         </>
     )
 }
+
+const QuestionsList = styled('ol', {
+
+})
 
 export default Demo

@@ -8,7 +8,7 @@ export type DocURI = {
 
 export type CustomKeyword = {
     keyword: Keyword
-    priority: string
+    priority: Priority
     selected: boolean
 }
 

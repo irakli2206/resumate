@@ -13,18 +13,17 @@ const HomeAdvantages = () => {
                     <Text  css={{ color: '$accents6' }}>But Why Us?</Text>
                     <Text h1  css={{ py: 24 }}>Our Advantages</Text>
                     <CardsContainer >
-                        <FeatureCard title='Cutting Edge AI Technology' body="OpenAI's brand new tools allow us 
-                        to use the power of tech and artificial intelligence in ingenius ways."
+                        <FeatureCard title='Cutting Edge AI Technology' body="OpenAI's latest tools harness the power of technology and AI to revolutionize the way we work and live."
                             icon={<SiOpenai color='#108944' size={32} />}
                             iconBackground='#ADF5CC'
                         />
-                        <FeatureCard title='Intuitive Tools' body="You won't need any technical or any other type of 
+                        <FeatureCard title='User-Friendly' body="You won't need any technical or any other type of 
                         additional knowledge and expertise to use our tools."
                             icon={<GiClick color='#0072F5' size={32} />}
                             iconBackground='#B7D5F8'
                         />
                         <FeatureCard title='Competitive Pricing' body="Despite using one of the most modern and flexible 
-                        resume scanning technology on the market, we offer convenient prices to our customers."
+                        technologies on the market, we offer convenient prices to our customers."
                             icon={<GiPayMoney color='#B80A47' size={32} />}
                             iconBackground='#FCC5D8'
                         />

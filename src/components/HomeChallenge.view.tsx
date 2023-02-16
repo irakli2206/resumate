@@ -23,12 +23,9 @@ const HomeChallenge = () => {
         </Grid>
         <Grid xs={12} sm={5} direction='column' >
           <Text css={{ color: '$accents6' }}>Who Do We Help?</Text>
-          <Text h1 css={{ py: 24 }}>You have too many resumes to go through, but you value your time.</Text>
+          <Text h1 css={{ py: 24 }}>Let ResuMate's AI technology be your guide to the perfect resume.</Text>
           <Text size='$xl' css={{ color: '$accents6' }}>
-            You are an HR specialist, a Talent Acquisition Expert, a Recruiter, perhaps even a business owner
-            going on a hunt for employees by himself. In short, you are an employer of any kind looking for top notch
-            talent on the market. You have a pile of resumes and now have to spend lots of time crawling through them. Surely
-            there is a solution to this?
+          At ResuMate, we help job seekers of all levels and across a wide range of industries. Whether you're a recent graduate or an experienced professional, our AI-powered career coach can assist you in creating a standout resume and navigating the job search process with confidence.
           </Text>
         </Grid>
       </Grid.Container>
