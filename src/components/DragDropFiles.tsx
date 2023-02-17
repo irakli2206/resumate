@@ -22,7 +22,6 @@ const DragDropFiles = ({ isDemo }: Props) => {
     };
 
     const handleClick = () => {
-        //@ts-ignore
         if (fileInputRef) fileInputRef.current.click();
     };
 
