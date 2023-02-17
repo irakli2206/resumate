@@ -47,16 +47,16 @@ const BadResumeSlider = () => {
                     onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex + 1)}
                 >
                     <SwiperSlide>
-                        <img src='src/assets/bad-resume-slider/resume-1.svg' />
+                        <img src='assets/bad-resume-slider/resume-1.svg' />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <img src='src/assets/bad-resume-slider/resume-2.svg' />
+                        <img src='assets/bad-resume-slider/resume-2.svg' />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <img src='src/assets/bad-resume-slider/resume-3.svg' />
+                        <img src='assets/bad-resume-slider/resume-3.svg' />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <img src='src/assets/bad-resume-slider/resume-4.svg' />
+                        <img src='assets/bad-resume-slider/resume-4.svg' />
                     </SwiperSlide>
 
 

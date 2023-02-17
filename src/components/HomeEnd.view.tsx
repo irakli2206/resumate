@@ -19,7 +19,7 @@ const HomeEnd = () => {
                         <Button size='lg' shadow rounded  >Get Started</Button>
                     </Row>
                 </Grid>
-                <Decoration src='src/assets/flying-shape-1.svg' css={{ top: 100, left: 0 }}
+                <Decoration src='assets/flying-shape-1.svg' css={{ top: 100, left: 0 }}
                     initial={{ y: 0  }}
                     animate={{ y: 15  }}
                     transition={{
@@ -28,7 +28,7 @@ const HomeEnd = () => {
                         repeatType: 'reverse'
                     }}
                 />
-                <Decoration src='src/assets/flying-shape-2.svg' css={{ 
+                <Decoration src='assets/flying-shape-2.svg' css={{ 
                     display: 'none',
                     top: -100, 
                     right: 200,
@@ -45,7 +45,7 @@ const HomeEnd = () => {
                         repeatType: 'reverse'
                     }}
                 />
-                <Decoration src='src/assets/flying-shape-3.svg' css={{ bottom: -50, right: 0 }}
+                <Decoration src='assets/flying-shape-3.svg' css={{ bottom: -50, right: 0 }}
                     initial={{ y: 0 }}
                     animate={{ y: 15 }}
                     transition={{

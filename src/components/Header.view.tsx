@@ -56,7 +56,7 @@ const Header = () => {
                 // }
             }}>
                 <Navbar.Brand as={Link} to='/' css={{ cursor: 'pointer' }}  >
-                    <Image src='src/assets/logo.png' height={60} />
+                    <Image src='assets/logo.png' height={60} />
 
                 </Navbar.Brand>
                 <Navbar.Content hideIn="xs" variant="underline">

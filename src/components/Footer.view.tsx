@@ -11,7 +11,7 @@ const Footer = () => {
         }
         }} >
         <Grid xs={12} sm={2}>
-          <Image src='src/assets/logo.png' height={60} />
+          <Image src='assets/logo.png' height={60} />
         </Grid>
         <Grid xs={12} sm={2}>
           <Col css={{ pt: 16, width: 'auto', marginInline: 'auto' }} >
@@ -53,7 +53,7 @@ const FooterWrapper = styled('footer', {
 const FooterTop = styled(Grid.Container, {
   position: 'relative',
   minHeight: '300px',
-  backgroundImage: 'url("src/assets/footer-bg.svg")',
+  backgroundImage: 'url("assets/footer-bg.svg")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   width: '100%',

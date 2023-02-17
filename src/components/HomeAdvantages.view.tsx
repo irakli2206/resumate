@@ -32,7 +32,7 @@ const HomeAdvantages = () => {
                 </Grid>
                 {/* <Spacer x={12} /> */}
                 <Grid xs={0} sm={7} direction='column' alignItems='flex-end' >
-                    <img src='src/assets/paginated-results-deco.svg' style={{
+                    <img src='assets/paginated-results-deco.svg' style={{
                         width: '80%', 
                         height: 'auto',
                         filter: 'drop-shadow(0px 2px 10px lightgrey)',
